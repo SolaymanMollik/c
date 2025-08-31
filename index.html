@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Reset Numeric Data</title>
+  </head>
+  <body>
+    <button id="resetBtn">Reset Data (Double Click)</button>
+
+    <script>
+      // আপনার API কনফিগ
+      const BIN_ID = '68ae98da43b1c97be92c8452';
+      const BIN_API = `https://api.jsonbin.io/v3/b/${BIN_ID}`;
+      const BIN_LATEST = `${BIN_API}/latest`;
+      const API_KEY =
+        '$2a$10$Uy5Sn6efPq3TetXXz4m8uuxCQpD/p3NdzILOjWvV5zvZKhHhPX6CS';
+      // ডাবল ক্লিক ইভেন্ট
+      document
+        .getElementById('resetBtn')
+        .addEventListener('dblclick', async () => {
+          try {
+            // নতুন ডেটা (সব numeric = 0)
+            const updatedData = {
+              id: 'solayman',
+              totalAsset: 0,
+              personal: 0,
+              relative: 0,
+              forAllah: 0,
+              lastUpdate: new Date().toISOString(),
+            };
+
+            // PUT request
+            const res = await fetch(BIN_API, {
+              method: 'PUT',
+              headers: {
+                'Content-Type': 'application/json',
+                'X-Master-Key': API_KEY,
+              },
+              body: JSON.stringify(updatedData),
+            });
+
+            const data = await res.json();
+            console.log('Updated Successfully:', data);
+            alert('All numeric values reset to 0 ✅');
+          } catch (err) {
+            console.error('Error updating:', err);
+            alert('Update failed ❌');
+          }
+        });
+    </script>
+  </body>
+</html>
